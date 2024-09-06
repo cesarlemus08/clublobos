@@ -55,7 +55,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col col-lg-10">
-                                            <h4 class="card-title">Jugadores</h4>
+                                            <h4 class="card-title">Jugadores Club Lobos</h4>
                                         </div>
                                         <div class="col col-lg-2 mb-3">
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#playeradd"><i class="feather-plus-circle"></i>
