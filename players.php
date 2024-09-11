@@ -121,10 +121,11 @@
                                                         $hora_id = $row2['hora_id'];
                                                         $est_id = $row2['est_id'];
 
-                                                            $sql_players3 = "SELECT mon_id,tp_id,fep_id FROM jugador_has_pago WHERE jug_id = '".$jug_id."'" ;
+                                                            $sql_players3 = "SELECT jp_id,mon_id,tp_id,fep_id FROM jugador_has_pago WHERE jug_id = '".$jug_id."'" ;
                                                             //echo $sql_players3;
                                                             $resultPlayer3 = mysqli_query($conexion, $sql_players3);
                                                             while ($row3 = mysqli_fetch_array($resultPlayer3)) {
+                                                                $jp_id = $row3['jp_id'];
                                                                 $mon_id = $row3['mon_id'];
                                                                 $tp_id = $row3['tp_id'];
                                                                 $fep_id = $row3['fep_id'];
@@ -286,6 +287,8 @@
 
     <!-- App js -->
     <script src="assets/js/theme.js"></script>
+
+
 
 </body>
 
