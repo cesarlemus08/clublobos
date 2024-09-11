@@ -105,13 +105,14 @@ if($_POST['asis'] == "asis100"){
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col col-lg-10">
-                                            <h4 class="card-title">Pago entrenador / <?php echo $ent_nom." ".$ent_appat." ".$ent_apmat?> / Clasificación: <?php echo $eclas_clasificacion;?></h4>
+                                            <h4 class="card-title">Pago entrenador / <?php echo $ent_nom." ".$ent_appat." ".$ent_apmat?> / Clasificación: <?php echo $eclas_clasificacion; echo date("H:i:s");?></h4>
                                         </div>
                                         <div class="col col-lg-2 mb-3">
                                             <a href="trainers.php" class="btn btn-primary">Regresar</a>
                                         </div>
                                     </div>
-                                    <table id="datatable" class="table ">
+                                    <table id="datatable" class="table">
+                                    
                                         <thead>
                                             <tr>
                                                 <th># semana</th>

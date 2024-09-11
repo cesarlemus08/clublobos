@@ -87,13 +87,12 @@
                                         </div>
                                         <!---- End Modal ---->
                                     </div>
-                                    <table id="selection-datatable" class="table ">
+                                    <!-- <table id="selection-datatable" class="table "> -->
+                                    <table id="basic-datatable" class="table">
                                         <thead>
                                             <tr>
                                                 <th>Nombre</th>
                                                 <th>Sede</th>
-                                                <!-- <th>Categoría</th> -->
-                                                <!-- <th>Horario</th> -->
                                                 <th>Monto</th>
                                                 <th>Día</th>
                                                 <th>Est. Pago</th>
@@ -123,79 +122,86 @@
                                                         $est_id = $row2['est_id'];
 
                                                             $sql_players3 = "SELECT mon_id,tp_id,fep_id FROM jugador_has_pago WHERE jug_id = '".$jug_id."'" ;
+                                                            //echo $sql_players3;
                                                             $resultPlayer3 = mysqli_query($conexion, $sql_players3);
                                                             while ($row3 = mysqli_fetch_array($resultPlayer3)) {
                                                                 $mon_id = $row3['mon_id'];
                                                                 $tp_id = $row3['tp_id'];
                                                                 $fep_id = $row3['fep_id'];
-                                            ?>
+                                                            ?>
                                                 <tr>
-                                                    <td><?php echo $jug_nom.'&nbsp;'.$jug_appat.'&nbsp;'.$jug_apmat; ?></td>
-                                                    <td><?php
-                                                    $sqlsede = "SELECT sede_nom FROM sedes WHERE sede_id = $sede_id";
-                                                    $resultSede = mysqli_query($conexion, $sqlsede);
-                                                    while ($rowS =  mysqli_fetch_array($resultSede)){
-                                                        $sede_nom = $rowS['sede_nom'];
-                                                        echo $sede_nom;
+                                                        <td><?php echo $jug_nom.'&nbsp;'.$jug_appat.'&nbsp;'.$jug_apmat; ?></td>
+                                                        <td><?php
+                                                        $sqlsede = "SELECT sede_nom FROM sedes WHERE sede_id = $sede_id";
+                                                        $resultSede = mysqli_query($conexion, $sqlsede);
+                                                        while ($rowS =  mysqli_fetch_array($resultSede)){
+                                                            $sede_nom = $rowS['sede_nom'];
+                                                            echo $sede_nom;
 
-                                                    }
+                                                        }
+                                                        ?></td>
+                                                        <td><?php
+                                                        $sqlmontoP = "SELECT mon_nom FROM monto_pago WHERE mon_id = $mon_id ";
 
-                                                    ?></td>
+                                                        $resultMontoPago = mysqli_query($conexion, $sqlmontoP);
+                                                        while ($rowM =  mysqli_fetch_array($resultMontoPago)){
+                                                            $mon_nom = $rowM['mon_nom'];
+                                                            $monto_f = number_format($mon_nom, 2, '.', '');
+                                                            echo "$ ". $monto_f;
+                                                        }
+                                                        ?></td>
 
-                                                    <!-- <td><?php
-                                                    // $sqlcat = "SELECT cat_nom FROM categorias WHERE cat_id = $cat_id ";
-                                                    // $resultCat = mysqli_query($conexion, $sqlcat);
-                                                    // while ($rowC =  mysqli_fetch_array($resultCat)){
-                                                    //     $cat_nom = $rowC['cat_nom'];
-                                                    //     echo $cat_nom;
-                                                    //     }
-                                                    ?></td> -->
-                                                    <!-- <td><?php
-                                                    // $sqlhora = "SELECT hora_nom FROM horarios WHERE hora_id = $hora_id ";
-                                                    // $resultHora = mysqli_query($conexion, $sqlhora);
-                                                    // while ($rowH =  mysqli_fetch_array($resultHora)){
-                                                    //     $hora_nom = $rowH['hora_nom'];
-                                                    //     echo $hora_nom;
-                                                    // }
-                                                    ?></td> -->
+                                                        <td><?php
+                                                        $sqlfep = "SELECT fep_nom FROM fecha_pago WHERE fep_id = $fep_id ";
 
-                                                    <td><?php
-                                                     $sqlmontoP = "SELECT mon_nom FROM monto_pago WHERE mon_id = $mon_id ";
-
-                                                     $resultMontoPago = mysqli_query($conexion, $sqlmontoP);
-                                                     while ($rowM =  mysqli_fetch_array($resultMontoPago)){
-                                                         $mon_nom = $rowM['mon_nom'];
-                                                         $monto_f = number_format($mon_nom, 2, '.', '');
-                                                         echo "$ ". $monto_f;
-                                                     }
-                                                     ?></td>
-
-                                                    <td><?php
-                                                    $sqlfep = "SELECT fep_nom FROM fecha_pago WHERE fep_id = $fep_id ";
-
-                                                    $resultFepPago = mysqli_query($conexion, $sqlfep);
-                                                    while ($rowF =  mysqli_fetch_array($resultFepPago)){
-                                                        $fep_nom = $rowF['fep_nom'];
-                                                        echo $fep_nom;
-
-                                                    }
-                                                    ?></td>
-                                                    <td style="text-align:center"><i class="feather-check-square" style="color:green;"></i></td>
-
-                                                    <div>
-                                                <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalP"><i class="feather-dollar-sign"></i></button></td>
-                                                <?php include 'payment-form.php'; ?>
-                                                </div>
-                                                <div>
-                                                <td><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter3"><i class="feather-file-text"></i></button></td>
-
-                                                </div>
-
-
+                                                        $resultFepPago = mysqli_query($conexion, $sqlfep);
+                                                        while ($rowF =  mysqli_fetch_array($resultFepPago)){
+                                                            $fep_nom = $rowF['fep_nom'];
+                                                            echo $fep_nom;
+                                                        }
+                                                        //extraemos la temporalidad de pago
+                                                        $sqltemp = "SELECT tp_nom FROM temporalidad_pago WHERE tp_id = $tp_id ";
+                                                        //echo $sqltemp;
+                                                        $resultTemPago = mysqli_query($conexion, $sqltemp);
+                                                        while ($rowT =  mysqli_fetch_array($resultTemPago)){
+                                                            $tp_nom = $rowT['tp_nom'];
+                                                            //echo $tp_nom;
+                                                        }
+                                                        ?></td>
+                                                        <td style="text-align:center"><i class="feather-check-square" style="color:green;"></i></td>
+                                                        <td>
+                                                        <div class="col col-lg-2 mb-3">
+                                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#playerpay<?php echo $jug_id;?>"><i class="feather-dollar-sign"></i></button>
+                                                        </div>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="playerpay<?php echo $jug_id;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+                                                                <form action="#" method="post">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLongTitle">Asignar pago: <?php echo $jug_id; ?></h5>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                            </div>
+                                                                                <div class="modal-body" style="padding: 1.25rem;">
+                                                                                    <?php include 'payment-form.php'; ?>
+                                                                                </div>
+                                                                            <div class="modal-footer">
+                                                                            <input type="hidden" name="jugadd" value="pay100">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                                            <input type="submit" class="btn btn-primary" name="Guardar">
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                        <!---- End Modal ---->
+                                                        </td>
+                                                    
+                                                
+                                                    <td><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter3"><i class="feather-file-text"></i></button></td>
                                                     <td>
-                                                        <!-- <button type="button" class="btn btn-warning">
-                                                            <i class="feather-edit-3"></i>
-                                                        </button> -->
                                                         <a href="players-detail.php?jug_id=<?php echo $jug_id;?>" class="btn btn-warning"><i class="feather-edit-3"></i></a>
                                                     </td>
                                                     <td>
