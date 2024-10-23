@@ -93,7 +93,7 @@
                                             <tr>
                                                 <th>Nombre</th>
                                                 <th>Sede</th>
-                                                <th>Monto</th>
+                                                <!-- <th>Monto</th> -->
                                                 <th>Día</th>
                                                 <th>Est. Pago</th>
                                                 <th>Pagar</th>
@@ -121,7 +121,7 @@
                                                         $hora_id = $row2['hora_id'];
                                                         $est_id = $row2['est_id'];
 
-                                                            $sql_players3 = "SELECT jp_id,mon_id,tp_id,fep_id FROM jugador_has_pago WHERE jug_id = '".$jug_id."'" ;
+                                                            $sql_players3 = "SELECT jp_id,mon_id,tp_id,fep_id FROM jugador_has_datospago WHERE jug_id = '".$jug_id."'" ;
                                                             //echo $sql_players3;
                                                             $resultPlayer3 = mysqli_query($conexion, $sql_players3);
                                                             while ($row3 = mysqli_fetch_array($resultPlayer3)) {
@@ -133,24 +133,25 @@
                                                 <tr>
                                                         <td><?php echo $jug_nom.'&nbsp;'.$jug_appat.'&nbsp;'.$jug_apmat; ?></td>
                                                         <td><?php
-                                                        $sqlsede = "SELECT sede_nom FROM sedes WHERE sede_id = $sede_id";
+                                                        $sqlsede = "SELECT sede_nom,sede_abv FROM sedes WHERE sede_id = $sede_id";
                                                         $resultSede = mysqli_query($conexion, $sqlsede);
                                                         while ($rowS =  mysqli_fetch_array($resultSede)){
                                                             $sede_nom = $rowS['sede_nom'];
-                                                            echo $sede_nom;
+                                                            $sede_abv = $rowS['sede_abv'];
+                                                            echo $sede_abv;
 
                                                         }
                                                         ?></td>
-                                                        <td><?php
-                                                        $sqlmontoP = "SELECT mon_nom FROM monto_pago WHERE mon_id = $mon_id ";
+                                                        <!-- <td><?php
+                                                        // $sqlmontoP = "SELECT mon_nom FROM monto_pago WHERE mon_id = $mon_id ";
 
-                                                        $resultMontoPago = mysqli_query($conexion, $sqlmontoP);
-                                                        while ($rowM =  mysqli_fetch_array($resultMontoPago)){
-                                                            $mon_nom = $rowM['mon_nom'];
-                                                            $monto_f = number_format($mon_nom, 2, '.', '');
-                                                            echo "$ ". $monto_f;
-                                                        }
-                                                        ?></td>
+                                                        // $resultMontoPago = mysqli_query($conexion, $sqlmontoP);
+                                                        // while ($rowM =  mysqli_fetch_array($resultMontoPago)){
+                                                        //     $mon_nom = $rowM['mon_nom'];
+                                                        //     $monto_f = number_format($mon_nom, 2, '.', '');
+                                                        //     echo "$ ". $monto_f;
+                                                        // }
+                                                        ?></td> -->
 
                                                         <td><?php
                                                         $sqlfep = "SELECT fep_nom FROM fecha_pago WHERE fep_id = $fep_id ";
@@ -169,18 +170,29 @@
                                                             //echo $tp_nom;
                                                         }
                                                         ?></td>
-                                                        <td style="text-align:center"><i class="feather-check-square" style="color:green;"></i></td>
+                                                        <td style="text-align:center">
+                                                            <?php 
+                                                            $hoy = date('d');
+                                                                if($fep_id == 1){
+                                                                    if($hoy == 1){
+
+                                                                    }
+                                                                }
+                                                            ?>
+                                                            <i class="feather-check-square" style="color:green;"></i>
+
+                                                        </td>
                                                         <td>
                                                         <div class="col col-lg-2 mb-3">
                                                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#playerpay<?php echo $jug_id;?>"><i class="feather-dollar-sign"></i></button>
                                                         </div>
                                                         <!-- Modal -->
                                                         <div class="modal fade" id="playerpay<?php echo $jug_id;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                                            <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+                                                            <div class="modal-dialog modal-xl ">
                                                                 <form action="#" method="post">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLongTitle">Asignar pago: <?php echo $jug_id; ?></h5>
+                                                                            <h5 class="modal-title" id="exampleModalLongTitle">Asignar pago</h5>
                                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                                 <span aria-hidden="true">&times;</span>
                                                                             </button>
@@ -191,7 +203,7 @@
                                                                             <div class="modal-footer">
                                                                             <input type="hidden" name="jugadd" value="pay100">
                                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                                            <input type="submit" class="btn btn-primary" name="Guardar">
+                                                                            <!-- <input type="submit" class="btn btn-primary" name="Guardar"> -->
                                                                         </div>
                                                                     </div>
                                                                 </form>
