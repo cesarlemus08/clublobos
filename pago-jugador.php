@@ -13,12 +13,13 @@
 // echo $sql_confirm_pay;
  $resultConfirm = mysqli_query($conexion,$sql_confirm_pay);
 
-  $sql_pago2 = "SELECT jpago_anio,jpago_mes,jpago_monto,jpago_fecha,jpago_comentarios,jpago_pagado FROM jugador_has_pago WHERE jpago_id = '".$_POST['jpago_id']."' ";
+  $sql_pago2 = "SELECT jpago_anio,jpago_mes,jpago_semana,jpago_monto,jpago_fecha,jpago_comentarios,jpago_pagado FROM jugador_has_pago WHERE jpago_id = '".$_POST['jpago_id']."' ";
 //  //echo $sql_pago;
   $resultPago = mysqli_query($conexion, $sql_pago2);
     while ($rowP =  mysqli_fetch_array($resultPago)){
         $jpago_anio = $rowP['jpago_anio'];
         $jpago_mes = $rowP['jpago_mes'];
+        $jpago_semana = $rowP['jpago_semana'];
         $jpago_monto = $rowP['jpago_monto'];
         $jpago_fecha = $rowP['jpago_fecha'];
         $jpago_comentarios = $rowP['jpago_comentarios'];
@@ -34,6 +35,7 @@
                   while($rm = mysqli_fetch_array($resultMes)){
                     $mes_nom = $rm['mes_nom'];
                     echo $mes_nom;
+                    if($_POST['tp_id'] == 2) { echo "&nbsp;&nbsp;&nbsp;&nbsp; - ".$jpago_semana; }
                   }
               ?>
             </span></div>

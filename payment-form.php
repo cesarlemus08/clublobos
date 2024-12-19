@@ -2,7 +2,7 @@
 <div class="card">
   <h5 class="card-header"><?php echo $jug_nom." ".$jug_appat." ".$jug_apmat;?></h5>
   <div class="card-body">
-    <p class="card-text">Tipo de pago: <strong><?php echo $tp_nom;?></strong> | Fecha de pago: <strong><?php echo $fep_nom;?></strong> | Monto de pago: <strong><?php echo "$ ". $monto_f;?></strong></p>
+    <p class="card-text">Tipo de pago: <strong><?php echo $tp_nom;?></strong> | Día(s) de pago: <strong><?php echo $fep_nom;?></strong> | Monto de pago: <strong><?php echo "$ ". $monto_f;?></strong></p>
     1. Verifica el monto de pago. 2. Confirma marcando el checkbox. 3. Da clic en pagar. <br><br>   
             
         <div>
@@ -86,16 +86,17 @@
         
         <div class="container">
           <div class="row" style="background-color:#CCC; padding:5px">
-            <div class="col-lg-1">Año</div><div class="col-lg-2">Mes</div><div class="col-lg-1">Monto</div><div class="col-lg-1">Confirma</div><div class="col-lg-2">Aplicar</div><div class="col-lg-2">Fecha pago</div><div class="col-lg-3">Comentario</div>
+            <div class="col-lg-1">Año</div><div class="col-lg-2">Mes <?php if($tp_id==2){ ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Semana<?php } ?></div><div class="col-lg-1">Monto</div><div class="col-lg-1">Confirma</div><div class="col-lg-2">Aplicar</div><div class="col-lg-2">Fecha pago</div><div class="col-lg-3">Comentario</div>
           </div>
           <?php 
-            $sql_pago = "SELECT jpago_id,jpago_anio,jpago_mes,jpago_monto,jpago_fecha,jpago_comentarios,jpago_pagado FROM jugador_has_pago WHERE jug_id = '".$jug_id."' ORDER BY jpago_id DESC LIMIT 3 ";
+            $sql_pago = "SELECT jpago_id,jpago_anio,jpago_mes,jpago_semana,jpago_monto,jpago_fecha,jpago_comentarios,jpago_pagado FROM jugador_has_pago WHERE jug_id = '".$jug_id."' ORDER BY jpago_id DESC LIMIT 3 ";
             //echo $sql_pago;
             $resultPago = mysqli_query($conexion, $sql_pago);
               while ($rowP =  mysqli_fetch_array($resultPago)){
                   $jpago_id = $rowP['jpago_id'];
                   $jpago_anio = $rowP['jpago_anio'];
                   $jpago_mes = $rowP['jpago_mes'];
+                  $jpago_semana = $rowP['jpago_semana'];
                   $jpago_monto = $rowP['jpago_monto'];
                   $jpago_fecha = $rowP['jpago_fecha'];
                   $jpago_comentarios = $rowP['jpago_comentarios'];
@@ -118,11 +119,13 @@
                           jpago_id = $("#jpago_id<?php echo $jpago_id.$z;?>").val();
                           jpago_monto = $("#jpago_monto<?php echo $jpago_id.$z;?>").val();
                           jpago_pagado = $("#jpago_pagado<?php echo $jpago_id.$z;?>").val();
+                          tp_id = $("#tp_id<?php echo $jpago_id.$z;?>").val();
                           jpago_comentarios = $("#jpago_comentarios<?php echo $jpago_id.$z;?>").val();
                           var parametros = {
                               "jpago_id": jpago_id,
                               "jpago_monto": jpago_monto,
                               "jpago_pagado": jpago_pagado,
+                              "tp_id": tp_id,
                               "jpago_comentarios": jpago_comentarios
                           };
                           $.ajax({
@@ -147,15 +150,18 @@
                   while($rm = mysqli_fetch_array($resultMes)){
                     $mes_nom = $rm['mes_nom'];
                     echo $mes_nom;
+                    if($tp_id==2) { echo "&nbsp;&nbsp;&nbsp;&nbsp; - ".$jpago_semana; }
                   }
                 ?>
               </div>
+              
               <div class="col-lg-1"><input type="text" id="jpago_monto<?php echo $jpago_id.$z;?>" name="jpago_monto<?php echo $jpago_id.$z;?>" value="<?php echo $jpago_monto;?>" style="width:40px">&nbsp;</div>
               <div class="col-lg-1" style="text-align:center"><input type="checkbox" name="jpago_pagado<?php echo $jpago_id.$z;?>" id="jpago_pagado<?php echo $jpago_id.$z;?>" value="1" onchange="habilitar<?php echo $jpago_id;?>(this)"></div>
               <div class="col-lg-2">
                 <button type="button" class="btn btn-primary" id="submitButton<?php echo $jpago_id;?>" name="submitButton<?php echo $jpago_id;?>" disabled onclick="aplicarpago<?php echo $jpago_id.$z;?>();">Pagar</button>
                 
                 <input type="hidden" name="jpago_id<?php echo $jpago_id.$z;?>" id="jpago_id<?php echo $jpago_id.$z;?>" value="<?php echo $jpago_id;?>">
+                <input type="hidden" name="tp_id<?php echo $jpago_id.$z;?>" id="tp_id<?php echo $jpago_id.$z;?>" value="<?php echo $tp_id;?>">
               </div>
               <div class="col-lg-2"><span style="color:gray">---</span></div>
               <div class="col-lg-3">
@@ -176,6 +182,7 @@
                 while($rm = mysqli_fetch_array($resultMes)){
                   $mes_nom = $rm['mes_nom'];
                   echo $mes_nom;
+                  if($tp_id==2) { echo "&nbsp;&nbsp;&nbsp;&nbsp; - ".$jpago_semana; }
                 }
               ?>
             </span></div>

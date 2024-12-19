@@ -142,16 +142,17 @@
 
                                                         }
                                                         ?></td>
-                                                        <!-- <td><?php
-                                                        // $sqlmontoP = "SELECT mon_nom FROM monto_pago WHERE mon_id = $mon_id ";
+                                                        <!-- <td></td> -->
+                                                        <?php
+                                                         $sqlmontoP = "SELECT mon_nom FROM monto_pago WHERE mon_id = $mon_id ";
 
-                                                        // $resultMontoPago = mysqli_query($conexion, $sqlmontoP);
-                                                        // while ($rowM =  mysqli_fetch_array($resultMontoPago)){
-                                                        //     $mon_nom = $rowM['mon_nom'];
-                                                        //     $monto_f = number_format($mon_nom, 2, '.', '');
-                                                        //     echo "$ ". $monto_f;
-                                                        // }
-                                                        ?></td> -->
+                                                         $resultMontoPago = mysqli_query($conexion, $sqlmontoP);
+                                                         while ($rowM =  mysqli_fetch_array($resultMontoPago)){
+                                                             $mon_nom = $rowM['mon_nom'];
+                                                             $monto_f = number_format($mon_nom, 2, '.', '');
+                                                             //echo "$ ". $monto_f;
+                                                         }
+                                                        ?>
 
                                                         <td><?php
                                                         $sqlfep = "SELECT fep_nom FROM fecha_pago WHERE fep_id = $fep_id ";
@@ -171,15 +172,27 @@
                                                         }
                                                         ?></td>
                                                         <td style="text-align:center">
-                                                            <?php 
-                                                            $hoy = date('d');
-                                                                if($fep_id == 1){
-                                                                    if($hoy == 1){
+                                                        <?php 
+                                                            $sql_pago = "SELECT mes_abr FROM meses INNER JOIN jugador_has_pago ON meses.mes_id = jugador_has_pago.jpago_mes WHERE jpago_pagado = '0' AND jug_id = '".$jug_id."' ORDER BY jpago_id ASC ";
+                                                            //echo $sql_pago;
+                                                            $resultPago = mysqli_query($conexion, $sql_pago);
+                                                            $numRow = mysqli_num_rows($resultPago);
+                                                            //echo "Cantidad de registros:".$numRow;
+                                                            if($numRow!=0){
+                                                                echo "Adeudo:";
+                                                                while ($rowP =  mysqli_fetch_array($resultPago)){
+                                                                    $mes_abr = $rowP['mes_abr'];
+                                                                        ?>
+                                                                        <span style="color:red"><?php echo $mes_abr."/";?></span>
+                                                                        <?php
+                                                                }          
+                                                            } else { ?>
 
-                                                                    }
-                                                                }
-                                                            ?>
-                                                            <i class="feather-check-square" style="color:green;"></i>
+                                                                <span style="color:green"><?php echo "---";?></span>
+                                                            <?php 
+                                                            }                                                   
+                                                        ?>
+                                                            
 
                                                         </td>
                                                         <td>
